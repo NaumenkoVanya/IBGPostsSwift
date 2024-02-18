@@ -26,7 +26,7 @@ class PostsTableViewController: UITableViewController {
     var pageNumberLabel = UILabel()
     
     lazy var spinner : UIActivityIndicatorView = {
-        var spinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        var spinner = UIActivityIndicatorView(style: .gray)
         spinner.frame = CGRect(x: 0, y: 0, width: 320, height: 44)
         return spinner
     }()
@@ -83,8 +83,11 @@ class PostsTableViewController: UITableViewController {
             
             self.postsArray.append(contentsOf: posts)
             OperationQueue.main.addOperation({
+                
                 self.tableView.reloadData()
+                
                 self.updateForNetworkCallEnd()
+                
             })
         }) { (error) in
             if (self.pageNumber > 1) {
@@ -93,9 +96,11 @@ class PostsTableViewController: UITableViewController {
             
             OperationQueue.main.addOperation({
                 self.updateUIForNetworkCallEnd()
-                
+               
             })
+            self.presentNetworkFailureAlertController()
         }
+        
     }
     
     //MARK: - Refresh control support
